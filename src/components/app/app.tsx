@@ -13,11 +13,13 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 const App = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const backgroundLocation = location.state?.background;
+  const handleModalClose = () => navigate(-1);
 
   return (
     <div className={styles.app}>
@@ -25,14 +27,49 @@ const App = () => {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/forgotpassword' element={<ForgotPassword />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/notfound404' element={<NotFound404 />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/profileorders' element={<ProfileOrders />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/resetpassword' element={<ResetPassword />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/orders' element={<ProfileOrders />} />
+        <Route path='/*' element={<NotFound404 />} />
       </Routes>
+
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path={`/feed/:number`}
+            element={
+              <Modal
+                title={`Заказ #0${location.pathname.split('/feed/')[1]}`}
+                onClose={handleModalClose}
+              >
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path={`/ingredients/:id`}
+            element={
+              <Modal title={'Детали ингредиента'} onClose={handleModalClose}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path={`/profile/orders/:number`}
+            element={
+              <Modal
+                title={`Заказ #0${location.pathname.split('/profile/orders/')[1]}`}
+                onClose={handleModalClose}
+              >
+                <OrderInfo />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };
