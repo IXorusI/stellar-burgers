@@ -14,11 +14,12 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'src/services/store';
+import { useDispatch } from 'react-redux';
 
 const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
   const backgroundLocation = location.state?.background;
 
   const handleModalClose = () => navigate(-1);
