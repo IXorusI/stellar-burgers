@@ -5,16 +5,18 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import * as burgerApi from '@api';
+import ingredientsSlice from './slices/ingridients-slice/ingridients-slice';
 
-export const rootReducer = combineReducers({}); // Заменить на импорт настоящего редьюсера
+export const rootReducer = combineReducers({
+  ingredientsSlice
+}); // Заменить на импорт настоящего редьюсера
 
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 

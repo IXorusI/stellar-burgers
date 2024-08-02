@@ -15,7 +15,6 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
 import { ProtectedRoute } from '../protected-route/protected-route';
 
 const App = () => {
