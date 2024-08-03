@@ -59,5 +59,5 @@ const feedsSlice = createSlice({
 export const { clearFeeds } = feedsSlice.actions;
 export const { selectOrders, selectOrdersTotal, selectOrdersTotalToday } =
   feedsSlice.selectors;
-  
+
 export default feedsSlice;

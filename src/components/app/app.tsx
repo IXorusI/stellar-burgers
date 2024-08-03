@@ -14,15 +14,25 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-
+import { useDispatch } from '../../services/store';
+import { fetchIngredients } from '../../services/slices/ingridients-slice/ingridients-slice';
 import { ProtectedRoute } from '../protected-route/protected-route';
+import {
+  checkUserAuth,
+  authCheck
+} from '../../services/slices/user-slice/user-slice';
+import { useEffect } from 'react';
 
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
   const backgroundLocation = location.state?.background;
+
+  useEffect(() => {
+    dispatch(checkUserAuth()).finally(() => dispatch(authCheck()));
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   const handleModalClose = () => navigate(-1);
 
