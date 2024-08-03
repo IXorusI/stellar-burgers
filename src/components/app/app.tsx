@@ -15,7 +15,7 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
-import { fetchIngredients } from '../../services/slices/ingridients-slice/ingridients-slice';
+import { setIngredient } from '../../services/slices/ingridients-slice/ingridients-slice';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import {
   checkUserAuth,
@@ -29,10 +29,10 @@ const App = () => {
   const location = useLocation();
   const backgroundLocation = location.state?.background;
 
-  useEffect(() => {
-    dispatch(checkUserAuth()).finally(() => dispatch(authCheck()));
-    dispatch(fetchIngredients());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(checkUserAuth()).finally(() => dispatch(authCheck()));
+  //   dispatch(setIngredient());
+  // }, [dispatch]);
 
   const handleModalClose = () => navigate(-1);
 
