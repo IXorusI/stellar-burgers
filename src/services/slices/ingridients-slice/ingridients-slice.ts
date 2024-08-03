@@ -1,15 +1,6 @@
+import { getIngredientsApi } from '@api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { SliceName, RequestStatus, TIngredient } from '@utils-types';
-import * as burgerApi from '@api';
-
-export const fetchIngredients = createAsyncThunk<
-  TIngredient[],
-  void,
-  { extra: typeof burgerApi }
->(
-  `${SliceName.ingredients}/fetchIngredients`,
-  async (_, { extra: api }) => await api.getIngredientsApi()
-);
 
 export type TIngredientState = {
   ingredients: TIngredient[];
@@ -17,6 +8,10 @@ export type TIngredientState = {
   requestStatus: RequestStatus;
   error: string | null;
 };
+
+export const getIngridients = createAsyncThunk('ingridients/getAll', async () =>
+  getIngredientsApi()
+);
 
 const initialState: TIngredientState = {
   ingredients: [],
@@ -43,15 +38,15 @@ const ingredientsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchIngredients.pending, (state) => {
+      .addCase(getIngridients.pending, (state) => {
         state.requestStatus = RequestStatus.loading;
         state.error = null;
       })
-      .addCase(fetchIngredients.rejected, (state, action) => {
+      .addCase(getIngridients.rejected, (state, action) => {
         state.requestStatus = RequestStatus.error;
         state.error = action.error.message || 'Произошла ошибка';
       })
-      .addCase(fetchIngredients.fulfilled, (state, action) => {
+      .addCase(getIngridients.fulfilled, (state, action) => {
         state.ingredients = action.payload;
         state.requestStatus = RequestStatus.success;
         state.error = null;
