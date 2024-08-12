@@ -1,40 +1,32 @@
 import { getIngredientsApi } from '@api';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { SliceName, RequestStatus, TIngredient } from '@utils-types';
 
 export type TIngredientState = {
   ingredients: TIngredient[];
-  currentIngredient: TIngredient | null;
   requestStatus: RequestStatus;
   error: string | null;
 };
 
-export const getIngridients = createAsyncThunk('ingridients/getAll', async () =>
-  getIngredientsApi()
+export const getIngridients = createAsyncThunk(
+  'ingredients/getIngridients',
+  getIngredientsApi
 );
 
 const initialState: TIngredientState = {
   ingredients: [],
-  currentIngredient: null,
-  requestStatus: RequestStatus.idle,
+  requestStatus: RequestStatus.success,
   error: null
 };
 
 const ingredientsSlice = createSlice({
   name: SliceName.ingredients,
   initialState,
-  reducers: {
-    setIngredient: (state, action) => {
-      state.currentIngredient =
-        state.ingredients.find(
-          (ingredient) => ingredient._id === action.payload
-        ) || null;
-    }
-  },
+  reducers: {},
   selectors: {
-    selectIngredients: (sliceState) => sliceState.ingredients,
-    selectRequestStatus: (sliceState) => sliceState.requestStatus,
-    selectIngredient: (sliceState) => sliceState.currentIngredient
+    selectIngredients: (state) => state.ingredients,
+    selectRequestStatus: (state) => state.requestStatus,
+    selectIngredient: (state) => state.error
   },
   extraReducers: (builder) => {
     builder
@@ -54,7 +46,6 @@ const ingredientsSlice = createSlice({
   }
 });
 
-export const { setIngredient } = ingredientsSlice.actions;
 export const { selectIngredients, selectRequestStatus, selectIngredient } =
   ingredientsSlice.selectors;
 

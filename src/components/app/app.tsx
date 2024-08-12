@@ -15,8 +15,8 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
-import { setIngredient } from '../../services/slices/ingridients-slice/ingridients-slice';
 import { ProtectedRoute } from '../protected-route/protected-route';
+import { getIngridients } from '../../services/slices/ingridients-slice/ingridients-slice';
 import {
   checkUserAuth,
   authCheck
@@ -29,10 +29,9 @@ const App = () => {
   const location = useLocation();
   const backgroundLocation = location.state?.background;
 
-  // useEffect(() => {
-  //   dispatch(checkUserAuth()).finally(() => dispatch(authCheck()));
-  //   dispatch(setIngredient());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getIngridients());
+  }, []);
 
   const handleModalClose = () => navigate(-1);
 
@@ -130,10 +129,7 @@ const App = () => {
             path={`/profile/orders/:number`}
             element={
               <ProtectedRoute>
-                <Modal
-                  title={`Заказ #0${location.pathname.split('/profile/orders/')[1]}`}
-                  onClose={handleModalClose}
-                >
+                <Modal title={``} onClose={handleModalClose}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

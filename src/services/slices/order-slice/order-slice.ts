@@ -1,4 +1,4 @@
-import { TOrderResponse, TNewOrderResponse } from '@api';
+import { TOrderResponse, TNewOrderResponse, orderBurgerApi } from '@api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RequestStatus, SliceName, TOrder } from '@utils-types';
 import {
@@ -6,6 +6,14 @@ import {
   isActionRejected
 } from '../../../utils/check-type-action';
 import * as burgerApi from '@api';
+
+export type TOrderState = {
+  orderData: TOrder | null;
+  userOrders: TOrder[];
+  orderRequest: boolean;
+  orderModalData: TOrder | null;
+  requestStatus: RequestStatus;
+};
 
 export const getOrderData = createAsyncThunk<
   TOrderResponse,
@@ -25,23 +33,8 @@ export const getUserOrders = createAsyncThunk<
   `${SliceName.order}/getUserOrders`,
   async (_, { extra: api }) => await api.getOrdersApi()
 );
-
-export const fetchOrderBurger = createAsyncThunk<
-  TNewOrderResponse,
-  string[],
-  { extra: typeof burgerApi }
->(
-  `${SliceName.order}/fetchOrderBurger`,
-  async (orderData, { extra: api }) => await api.orderBurgerApi(orderData)
-);
-
-export type TOrderState = {
-  orderData: TOrder | null;
-  userOrders: TOrder[];
-  orderRequest: boolean;
-  orderModalData: TOrder | null;
-  requestStatus: RequestStatus;
-};
+/** TODO: Допилить до чистового варианта */
+export const fetchOrderBurger = createAsyncThunk('order/post', orderBurgerApi);
 
 const initialState: TOrderState = {
   orderData: null,
@@ -92,12 +85,6 @@ const orderSlice = createSlice({
         state.orderRequest = false;
         state.orderModalData = action.payload.order;
         state.requestStatus = RequestStatus.success;
-      })
-      .addMatcher(isActionPending(SliceName.order), (state) => {
-        state.requestStatus = RequestStatus.loading;
-      })
-      .addMatcher(isActionRejected(SliceName.order), (state) => {
-        state.requestStatus = RequestStatus.error;
       });
   }
 });

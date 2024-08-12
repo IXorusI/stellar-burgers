@@ -29,11 +29,7 @@ const initialState: TFeedState = {
 const feedsSlice = createSlice({
   name: SliceName.feeds,
   initialState,
-  reducers: {
-    clearFeeds: (state) => {
-      state.orders = [];
-    }
-  },
+  reducers: {},
   selectors: {
     selectOrders: (sliceState) => sliceState.orders,
     selectOrdersTotal: (sliceState) => sliceState.total,
@@ -56,7 +52,6 @@ const feedsSlice = createSlice({
   }
 });
 
-export const { clearFeeds } = feedsSlice.actions;
 export const { selectOrders, selectOrdersTotal, selectOrdersTotalToday } =
   feedsSlice.selectors;
 
