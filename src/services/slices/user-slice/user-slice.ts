@@ -3,9 +3,14 @@ import {
   TRegisterData,
   TUserResponse,
   TServerResponse,
-  TAuthResponse
+  loginUserApi,
+  registerUserApi
 } from '@api';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  SerializedError
+} from '@reduxjs/toolkit';
 import { RequestStatus, SliceName, TUser } from '@utils-types';
 import { deleteCookie, setCookie } from '../../../utils/cookie';
 import {
@@ -23,20 +28,19 @@ export const checkUserAuth = createAsyncThunk<
   async (_, { extra: api }) => await api.getUserApi()
 );
 
-export const fetchLoginUser = createAsyncThunk<
-  TAuthResponse,
-  TLoginData,
-  { extra: typeof burgerApi }
->(`${SliceName.user}/fetchLoginUser`, async (userData, { extra: api }) => {
-  try {
-    const result = await api.loginUserApi(userData);
-    localStorage.setItem('refreshToken', result.refreshToken);
-    setCookie('accessToken', result.accessToken);
-    return result;
-  } catch (error) {
-    return Promise.reject(error);
+export const fetchLoginUser = createAsyncThunk(
+  `${SliceName.user}/fetchLoginUser`,
+  async (userData: TLoginData) => {
+    try {
+      const result = await loginUserApi(userData);
+      localStorage.setItem('refreshToken', result.refreshToken);
+      setCookie('accessToken', result.accessToken);
+      return result;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
-});
+);
 
 export const fetchLogoutUser = createAsyncThunk<
   TServerResponse<{}>,
@@ -62,31 +66,23 @@ export const fetchUpdateUserData = createAsyncThunk<
   async (userData, { extra: api }) => await api.updateUserApi(userData)
 );
 
-export const fetchRegisterUser = createAsyncThunk<
-  TAuthResponse,
-  TRegisterData,
-  { extra: typeof burgerApi }
->(`${SliceName.user}/fetchRegisterUser`, async (userData, { extra: api }) => {
-  try {
-    const result = await api.registerUserApi(userData);
-    localStorage.setItem('refreshToken', result.refreshToken);
-    setCookie('accessToken', result.accessToken);
-    return result;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-});
+export const fetchRegisterUser = createAsyncThunk(
+  `${SliceName.user}/fetchRegisterUser`,
+  registerUserApi
+);
 
 export type TUserState = {
   isAuthChecked: boolean;
   userData: TUser | null;
+  error: SerializedError | null;
   requestStatus: RequestStatus;
 };
 
 const initialState: TUserState = {
   isAuthChecked: false,
   userData: null,
-  requestStatus: RequestStatus.idle
+  requestStatus: RequestStatus.idle,
+  error: null
 };
 
 const userSlice = createSlice({
@@ -99,6 +95,7 @@ const userSlice = createSlice({
   },
   selectors: {
     isAuthCheckedSelector: (sliceState) => sliceState.isAuthChecked,
+    getError: (sliceState) => sliceState.error,
     userDataSelector: (sliceState) => sliceState.userData
   },
   extraReducers: (builder) => {
@@ -134,6 +131,7 @@ const userSlice = createSlice({
 });
 
 export const { authCheck } = userSlice.actions;
-export const { isAuthCheckedSelector, userDataSelector } = userSlice.selectors;
+export const { isAuthCheckedSelector, userDataSelector, getError } =
+  userSlice.selectors;
 
 export default userSlice;

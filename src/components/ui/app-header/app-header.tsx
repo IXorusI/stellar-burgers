@@ -21,23 +21,40 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
               isActive ? clsx(styles.link, styles.link_active) : styles.link
             }
             end
-          />
-          <BurgerIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2 mr-10'>Конструктор</p>
+          >
+            <BurgerIcon type={'primary'} />
+            <p className='text text_type_main-default ml-2 mr-10'>
+              Конструктор
+            </p>
+          </NavLink>
         </>
         <>
-          <ListIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2'>Лента заказов</p>
+          <NavLink
+            to={`/feed`}
+            className={({ isActive }) =>
+              isActive ? clsx(styles.link, styles.link_active) : styles.link
+            }
+          >
+            <ListIcon type={'primary'} />
+            <p className='text text_type_main-default ml-2'>Лента заказов</p>
+          </NavLink>
         </>
       </div>
       <div className={styles.logo}>
         <Logo className='' />
       </div>
       <div className={styles.link_position_last}>
-        <ProfileIcon type={'primary'} />
-        <p className='text text_type_main-default ml-2'>
-          {userName || 'Личный кабинет'}
-        </p>
+        <NavLink
+          to={`/profile`}
+          className={({ isActive }) =>
+            isActive ? clsx(styles.link, styles.link_active) : styles.link
+          }
+        >
+          <ProfileIcon type={'primary'} />
+          <p className='text text_type_main-default ml-2'>
+            {userName || 'Личный кабинет'}
+          </p>
+        </NavLink>
       </div>
     </nav>
   </header>
