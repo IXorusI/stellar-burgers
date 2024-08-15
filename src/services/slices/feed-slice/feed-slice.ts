@@ -1,15 +1,10 @@
-import * as burgerApi from '@api';
-import { TFeedsResponse } from '@api';
+import { getFeedsApi } from '@api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RequestStatus, SliceName, TOrder } from '@utils-types';
 
-export const fetchFeeds = createAsyncThunk<
-  TFeedsResponse,
-  void,
-  { extra: typeof burgerApi }
->(
+export const fetchFeeds = createAsyncThunk(
   `${SliceName.feeds}/fetchFeeds`,
-  async (_, { extra: api }) => await api.getFeedsApi()
+  async () => await getFeedsApi()
 );
 
 export type TFeedState = {
@@ -29,7 +24,11 @@ const initialState: TFeedState = {
 const feedsSlice = createSlice({
   name: SliceName.feeds,
   initialState,
-  reducers: {},
+  reducers: {
+    clearFeeds: (state) => {
+      state.orders = [];
+    }
+  },
   selectors: {
     selectOrders: (sliceState) => sliceState.orders,
     selectOrdersTotal: (sliceState) => sliceState.total,
@@ -52,6 +51,7 @@ const feedsSlice = createSlice({
   }
 });
 
+export const { clearFeeds } = feedsSlice.actions;
 export const { selectOrders, selectOrdersTotal, selectOrdersTotalToday } =
   feedsSlice.selectors;
 

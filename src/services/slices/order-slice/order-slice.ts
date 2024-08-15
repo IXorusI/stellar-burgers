@@ -1,7 +1,6 @@
-import { TOrderResponse, TNewOrderResponse, orderBurgerApi } from '@api';
+import { orderBurgerApi, getOrderByNumberApi, getOrdersApi } from '@api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RequestStatus, SliceName, TOrder } from '@utils-types';
-import * as burgerApi from '@api';
 
 export type TOrderState = {
   orderData: TOrder | null;
@@ -11,23 +10,14 @@ export type TOrderState = {
   requestStatus: RequestStatus;
 };
 
-export const getOrderData = createAsyncThunk<
-  TOrderResponse,
-  number,
-  { extra: typeof burgerApi }
->(
+export const getOrderData = createAsyncThunk(
   `${SliceName.order}/getOrderData`,
-  async (orderNumber, { extra: api }) =>
-    await api.getOrderByNumberApi(orderNumber)
+  async (orderNumber: number) => await getOrderByNumberApi(orderNumber)
 );
 
-export const getUserOrders = createAsyncThunk<
-  TOrder[],
-  void,
-  { extra: typeof burgerApi }
->(
+export const getUserOrders = createAsyncThunk(
   `${SliceName.order}/getUserOrders`,
-  async (_, { extra: api }) => await api.getOrdersApi()
+  async () => await getOrdersApi()
 );
 
 export const fetchOrderBurger = createAsyncThunk('order/post', orderBurgerApi);

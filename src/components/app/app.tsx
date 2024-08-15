@@ -18,8 +18,8 @@ import { useDispatch } from '../../services/store';
 import { ProtectedRoute } from '../protected-route/protected-route';
 import { getIngridients } from '../../services/slices/ingridients-slice/ingridients-slice';
 import {
-  checkUserAuth,
-  authCheck
+  authCheck,
+  checkUserAuth
 } from '../../services/slices/user-slice/user-slice';
 import { useEffect } from 'react';
 
@@ -30,8 +30,9 @@ const App = () => {
   const backgroundLocation = location.state?.background;
 
   useEffect(() => {
+    dispatch(checkUserAuth()).finally(() => dispatch(authCheck()));
     dispatch(getIngridients());
-  }, []);
+  }, [dispatch]);
 
   const handleModalClose = () => navigate(-1);
 

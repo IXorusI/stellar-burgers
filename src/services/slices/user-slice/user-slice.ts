@@ -1,10 +1,10 @@
 import {
   TLoginData,
-  TRegisterData,
-  TUserResponse,
-  TServerResponse,
+  logoutApi,
   loginUserApi,
-  registerUserApi
+  registerUserApi,
+  updateUserApi,
+  getUserApi
 } from '@api';
 import {
   createSlice,
@@ -17,15 +17,10 @@ import {
   isActionPending,
   isActionRejected
 } from '../../../utils/check-type-action';
-import * as burgerApi from '@api';
 
-export const checkUserAuth = createAsyncThunk<
-  TUserResponse,
-  void,
-  { extra: typeof burgerApi }
->(
+export const checkUserAuth = createAsyncThunk(
   `${SliceName.user}/checkUserAuth`,
-  async (_, { extra: api }) => await api.getUserApi()
+  async () => await getUserApi()
 );
 
 export const fetchLoginUser = createAsyncThunk(
@@ -33,7 +28,6 @@ export const fetchLoginUser = createAsyncThunk(
   async (userData: TLoginData) => {
     try {
       const result = await loginUserApi(userData);
-      localStorage.setItem('refreshToken', result.refreshToken);
       setCookie('accessToken', result.accessToken);
       return result;
     } catch (error) {
@@ -42,28 +36,22 @@ export const fetchLoginUser = createAsyncThunk(
   }
 );
 
-export const fetchLogoutUser = createAsyncThunk<
-  TServerResponse<{}>,
-  void,
-  { extra: typeof burgerApi }
->(`${SliceName.user}/fetchLogoutUser`, async (_, { extra: api }) => {
-  try {
-    const result = await api.logoutApi();
-    deleteCookie('accessToken');
-    localStorage.removeItem('refreshToken');
-    return result;
-  } catch (error) {
-    return Promise.reject(error);
+export const fetchLogoutUser = createAsyncThunk(
+  `${SliceName.user}/fetchLogoutUser`,
+  async () => {
+    try {
+      const result = await logoutApi();
+      deleteCookie('accessToken');
+      return result;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
-});
+);
 
-export const fetchUpdateUserData = createAsyncThunk<
-  TUserResponse,
-  Partial<TRegisterData>,
-  { extra: typeof burgerApi }
->(
+export const fetchUpdateUserData = createAsyncThunk(
   `${SliceName.user}/fetchUpdateUserData`,
-  async (userData, { extra: api }) => await api.updateUserApi(userData)
+  async (userData: TLoginData) => await updateUserApi(userData)
 );
 
 export const fetchRegisterUser = createAsyncThunk(
