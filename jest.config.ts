@@ -6,6 +6,16 @@
 import type {Config} from 'jest';
 
 const config: Config = {
+  transform: {
+    // '^.+\\.[tj]sx?$' для обработки файлов js/ts с помощью `ts-jest`
+    // '^.+\\.m?[tj]sx?$' для обработки файлов js/ts/mjs/mts с помощью `ts-jest`
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        // настройки для ts-jest
+      },
+    ],
+  },
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
