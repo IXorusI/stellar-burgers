@@ -37,4 +37,19 @@ export type TUser = {
   name: string;
 };
 
+export const enum RequestStatus {
+  idle = 'idle',
+  loading = 'loading',
+  success = 'success',
+  error = 'error'
+}
+
+export const enum SliceName {
+  order = 'order',
+  user = 'user',
+  burgerConstructor = 'burger-constructor',
+  feeds = 'feeds',
+  ingredients = 'ingredients'
+}
+
 export type TTabMode = 'bun' | 'sauce' | 'main';
