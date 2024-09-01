@@ -21,8 +21,6 @@ export const ResetPassword: FC = () => {
       .catch((err) => setError(err));
   };
 
-  console.log('test')
-
   useEffect(() => {
     if (!localStorage.getItem('resetPassword')) {
       navigate('/forgot-password', { replace: true });
