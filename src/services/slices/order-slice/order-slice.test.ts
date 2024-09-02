@@ -12,48 +12,48 @@ const mockOrders = {
   success: true,
   orders: [
     {
-      _id: '66714250856777001bb1bc6e',
+      _id: 'test_id',
       ingredients: [
-        '643d69a5c3f7b9001cfa093d',
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa0943'
+        'test_ingredient_1',
+        'test_ingredient_2',
+        'test_ingredient_3'
       ],
-      owner: '662f5b4197ede0001d0681b1',
+      owner: 'test_owner',
       status: 'done',
       name: 'Space флюоресцентный бургер',
-      createdAt: '2024-06-18T08:16:16.087Z',
-      updatedAt: '2024-06-18T08:16:16.539Z',
-      number: 43189,
+      createdAt: '',
+      updatedAt: '',
+      number: 55155,
       __v: 0
     },
     {
-      _id: '66714250856777001bb1bc6e',
+      _id: 'test_id',
       ingredients: [
-        '643d69a5c3f7b9001cfa093d',
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa0943'
+        'test_ingredient_1',
+        'test_ingredient_2',
+        'test_ingredient_3'
       ],
-      owner: '662f5b4197ede0001d0681b1',
+      owner: 'test_owner',
       status: 'done',
       name: 'Space флюоресцентный бургер',
-      createdAt: '2024-06-18T08:16:16.087Z',
-      updatedAt: '2024-06-18T08:16:16.539Z',
-      number: 43189,
+      createdAt: '',
+      updatedAt: '',
+      number: 55155,
       __v: 0
     },
     {
-      _id: '66714250856777001bb1bc6e',
+      _id: 'test_id',
       ingredients: [
-        '643d69a5c3f7b9001cfa093d',
-        '643d69a5c3f7b9001cfa0943',
-        '643d69a5c3f7b9001cfa0943'
+        'test_ingredient_1',
+        'test_ingredient_2',
+        'test_ingredient_3'
       ],
-      owner: '662f5b4197ede0001d0681b1',
+      owner: 'test_owner',
       status: 'done',
       name: 'Space флюоресцентный бургер',
-      createdAt: '2024-06-18T08:16:16.087Z',
-      updatedAt: '2024-06-18T08:16:16.539Z',
-      number: 43189,
+      createdAt: '',
+      updatedAt: '',
+      number: 55155,
       __v: 0
     }
   ]
@@ -62,24 +62,24 @@ const mockOrders = {
 const mockUserOrder = {
   success: true,
   order: {
-    _id: '66714250856777001bb1bc6e',
+    _id: 'test_i',
     ingredients: [
-      '643d69a5c3f7b9001cfa093d',
-      '643d69a5c3f7b9001cfa0943',
-      '643d69a5c3f7b9001cfa0943'
+      'test_ingredient_1',
+      'test_ingredient_2',
+      'test_ingredient_3'
     ],
-    owner: '662f5b4197ede0001d0681b1',
+    owner: 'test_owner',
     status: 'done',
     name: 'Space флюоресцентный бургер',
-    createdAt: '2024-06-18T08:16:16.087Z',
-    updatedAt: '2024-06-18T08:16:16.539Z',
-    number: 43189,
+    createdAt: '',
+    updatedAt: '',
+    number: 55155,
     __v: 0
   },
   name: 'Space флюоресцентный бургер'
 };
 
-const mockIdIngredients = ['11111', '2222', '3333'];
+const mockIdIngredients = ['111', '222', '333'];
 
 describe('Тестирование работы среза заказов пользователя', () => {
   const initialState: TOrderState = {
@@ -96,7 +96,7 @@ describe('Тестирование работы среза заказов пол
         ...initialState,
         requestStatus: RequestStatus.loading
       },
-      getOrderData.fulfilled(mockOrders, '', 123456)
+      getOrderData.fulfilled(mockOrders, '', 12345)
     );
 
     expect(currentState).toEqual({
