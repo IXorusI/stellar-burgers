@@ -5,13 +5,13 @@ import {
   registerUserApi,
   updateUserApi,
   getUserApi
-} from '@api';
+} from '../../../utils/burger-api';
 import {
   createSlice,
   createAsyncThunk,
   SerializedError
 } from '@reduxjs/toolkit';
-import { RequestStatus, SliceName, TUser } from '@utils-types';
+import { RequestStatus, SliceName, TUser } from '../../../utils/types';
 import { deleteCookie, setCookie } from '../../../utils/cookie';
 import {
   isActionPending,

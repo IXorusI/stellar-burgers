@@ -1,6 +1,6 @@
-import { getFeedsApi } from '@api';
+import { getFeedsApi } from '../../../utils/burger-api';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { RequestStatus, SliceName, TOrder } from '@utils-types';
+import { RequestStatus, SliceName, TOrder } from '../../../utils/types';
 
 export const fetchFeeds = createAsyncThunk(
   `${SliceName.feeds}/fetchFeeds`,
