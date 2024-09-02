@@ -5,7 +5,8 @@ import {
   fetchLoginUser,
   fetchLogoutUser,
   fetchUpdateUserData,
-  fetchRegisterUser
+  fetchRegisterUser,
+  initialState
 } from '../user-slice/user-slice';
 import { userReducer } from '..';
 
@@ -30,13 +31,6 @@ const mockAuthResponse = {
 };
 
 describe('Тестирование работы среза заказов пользователя', () => {
-  const initialState: TUserState = {
-    isAuthChecked: false,
-    userData: null,
-    error: null,
-    requestStatus: RequestStatus.idle
-  };
-
   it('проверка загрузки данных о заказе при fulfilled', () => {
     const currentState = userReducer(
       {

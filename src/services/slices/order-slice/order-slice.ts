@@ -26,7 +26,7 @@ export const getUserOrders = createAsyncThunk(
 
 export const fetchOrderBurger = createAsyncThunk('order/post', orderBurgerApi);
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   orderData: null,
   userOrders: [],
   orderRequest: false,

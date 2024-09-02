@@ -1,5 +1,5 @@
 import { RequestStatus } from '../../../utils/types';
-import { fetchFeeds, TFeedState } from '../feed-slice/feed-slice';
+import { fetchFeeds, initialState } from '../feed-slice/feed-slice';
 import { feedsReducer } from '..';
 
 const feedsData = {
@@ -33,13 +33,6 @@ const feedsData = {
 };
 
 describe('Тестирование работы среза ленты заказов', () => {
-  const initialState: TFeedState = {
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    requestStatus: RequestStatus.idle
-  };
-
   it('проверка изменения статуса запроса при pending', () => {
     const currentState = feedsReducer(initialState, fetchFeeds.pending(''));
 

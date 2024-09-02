@@ -4,7 +4,8 @@ import {
     deleteIngredient,
     moveUpIngredient,
     moveDownIngredient,
-    clearConstructorItems
+    clearConstructorItems,
+    initialState
   } from '../burger-constructor-slice/burger-constructor-slice';
   import { burgerConstructorReducer } from '..';
   
@@ -54,13 +55,6 @@ import {
   };
   
   describe('Тестирование работы слайса конструктора бургера', () => {
-    const initialState: TBurgerConstructorState = {
-      constructorItems: {
-        bun: null,
-        ingredients: []
-      }
-    };
-  
     it('проверка добавления булки', () => {
       const currentState = burgerConstructorReducer(
         initialState,

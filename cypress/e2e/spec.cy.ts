@@ -11,48 +11,44 @@ describe('Блок E2E тестов>', () => {
   beforeEach(() => {
     cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
     cy.viewport(1280, 800);
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   describe('Добавление ингредиента в конструктор', () => {
     it('Добавление булки в конструктор', () => {
-      cy.get(buns).contains('Добавить').click();
-      cy.get('[data-cy=constructor-bun-top]')
-        .contains('Булка 1')
-        .should('exist');
-      cy.get('[data-cy=constructor-bun-bottom]')
-        .contains('Булка 1')
-        .should('exist');
+      cy.testAdd(buns, 'Добавить')
+      cy.testExist('[data-cy=constructor-bun-top]', 'Булка 1')
+      cy.testExist('[data-cy=constructor-bun-bottom]', 'Булка 1')
     });
 
     it('Добавление начинки в конструктор', () => {
-      cy.get(mains).contains('Добавить').click();
-      cy.get(constructorIngredients).contains('Ингредиент 1').should('exist');
+      cy.testAdd(mains, 'Добавить')
+      cy.testExist(constructorIngredients, 'Ингредиент 1')
     });
 
     it('Добавление соуса в конструктор', () => {
-      cy.get(sauces).contains('Добавить').click();
-      cy.get(constructorIngredients).contains('Соус 1').should('exist');
+      cy.testAdd(sauces, 'Добавить')
+      cy.testExist(constructorIngredients, 'Соус 1')
     });
   });
 
   describe('Работа модального окна', () => {
     it('Тест открытия модального окна с деталями ингредиента', () => {
       cy.get(modalContent).should('not.exist');
-      cy.get(ingredients).contains('Булка 1').click();
-      cy.get(modalContent).contains('Булка 1').should('exist');
+      cy.testAdd(ingredients, 'Булка 1')
+      cy.testAdd(modalContent, 'Булка 1')
     });
 
     it('Тест закрытия модального окна по клику на кнопку Х', () => {
-      cy.get(ingredients).contains('Булка 1').click();
-      cy.get(modalContent).contains('Булка 1').should('exist');
+      cy.testAdd(ingredients, 'Булка 1')
+      cy.testExist(modalContent, 'Булка 1')
       cy.get(closeModalButton).click();
       cy.get(modalContent).should('not.exist');
     });
 
     it('Тест закрытия модального окна по клику на оверлей', () => {
-      cy.get(ingredients).contains('Булка 1').click();
-      cy.get(modalContent).contains('Булка 1').should('exist');
+      cy.testAdd(ingredients, 'Булка 1')
+      cy.testExist(modalContent, 'Булка 1')
       cy.get('[data-cy=modal-overlay]').click('top', { force: true });
       cy.get(modalContent).should('not.exist');
     });
@@ -76,9 +72,9 @@ describe('Блок E2E тестов>', () => {
 
     it('Тест добавления ингредиентов и отправки заказа', () => {
       // добавляем ингредиенты, оформляем заказ
-      cy.get(buns).contains('Добавить').click();
-      cy.get(mains).contains('Добавить').click();
-      cy.get(sauces).contains('Добавить').click();
+      cy.testAdd(buns, 'Добавить')
+      cy.testAdd(mains, 'Добавить')
+      cy.testAdd(sauces, 'Добавить')
       cy.get('[data-cy=order-total] button').click();
 
       // проверка состава добавленных игредиентов в принятом заказе

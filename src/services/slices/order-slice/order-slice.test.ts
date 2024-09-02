@@ -4,7 +4,8 @@ import {
   getOrderData,
   getUserOrders,
   fetchOrderBurger,
-  clearOrderData
+  clearOrderData,
+  initialState
 } from '../order-slice/order-slice';
 import { orderReducer } from '..';
 
@@ -82,14 +83,6 @@ const mockUserOrder = {
 const mockIdIngredients = ['111', '222', '333'];
 
 describe('Тестирование работы среза заказов пользователя', () => {
-  const initialState: TOrderState = {
-    orderData: null,
-    userOrders: [],
-    orderRequest: false,
-    orderModalData: null,
-    requestStatus: RequestStatus.idle
-  };
-
   it('проверка загрузки данных о заказе при fulfilled', () => {
     const currentState = orderReducer(
       {

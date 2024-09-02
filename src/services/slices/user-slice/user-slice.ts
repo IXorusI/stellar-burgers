@@ -66,7 +66,7 @@ export type TUserState = {
   requestStatus: RequestStatus;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   isAuthChecked: false,
   userData: null,
   requestStatus: RequestStatus.idle,
