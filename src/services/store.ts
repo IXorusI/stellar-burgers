@@ -18,7 +18,7 @@ export const rootReducer = combineReducers({
   [userSlice.name]: userSlice.reducer
 });
 
-const store = configureStore({
+export const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });

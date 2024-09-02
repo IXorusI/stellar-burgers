@@ -58,7 +58,7 @@ export const LoginUI: FC<LoginUIProps> = ({
       </form>
       <div className={`pb-4 ${styles.question} text text_type_main-default`}>
         Вы - новый пользователь?
-        <Link to='/register' className={`pl-2 ${styles.link}`}>
+        <Link to={`/register`} className={`pl-2 ${styles.link}`}>
           Зарегистрироваться
         </Link>
       </div>
